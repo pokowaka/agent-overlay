@@ -1,0 +1,4 @@
+#!/bin/bash
+# Convenient wrapper for the AI Agent Workspace Overlay Manager
+export PYTHONPATH="${PYTHONPATH}:$(pwd)/src"
+python3 -m overlay_manager.cli "$@"
