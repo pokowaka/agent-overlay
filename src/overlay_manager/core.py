@@ -178,3 +178,28 @@ class OverlayManager:
         paths = self._get_task_paths(task_name)
         output_base = os.path.join(paths["root"], "bazel_out")
         return f"bazel --output_base={output_base} build //..."
+
+    def enter_shell(self, task_name: str):
+        """Launches a sub-shell inside the isolated workspace.
+        
+        Args:
+            task_name: The name of the task to enter.
+            
+        Raises:
+            ValueError: If the task does not exist.
+        """
+        paths = self._get_task_paths(task_name)
+        if not os.path.exists(paths["merged"]):
+            raise ValueError(f"Task '{task_name}' not found or not mounted.")
+
+        print(f"Entering isolated shell for task '{task_name}'...")
+        print(f"Type 'exit' or press Ctrl+D to return to the base repository.")
+        
+        # Determine the user's preferred shell
+        shell = os.environ.get("SHELL", "/bin/bash")
+        
+        # Run the shell in the merged directory
+        try:
+            subprocess.run([shell], cwd=paths["merged"])
+        except Exception as e:
+            raise RuntimeError(f"Failed to launch shell: {e}")

@@ -63,6 +63,10 @@ Example Workflow:
     # List command
     list_p = subparsers.add_parser("list", help="List active task overlays")
 
+    # Shell command
+    shell_p = subparsers.add_parser("shell", help="Enter an isolated shell for a task")
+    shell_p.add_argument("name", help="Task name")
+
     args = parser.parse_args()
 
     # Use a project-specific base if we can detect it, otherwise use current dir
@@ -74,6 +78,8 @@ Example Workflow:
             merged_path = manager.start_task(args.name)
             print(f"✅ Task '{args.name}' started.")
             print(f"📂 Mount point: {merged_path}")
+            print(f"🚀 To enter the isolated view, run:")
+            print(f"   ./agent-overlay shell {args.name}")
             print(f"💡 Hint: {manager.get_bazel_hint(args.name)}")
         
         elif args.command == "abort":
@@ -83,6 +89,9 @@ Example Workflow:
         elif args.command == "diff":
             diff_output = manager.diff_task(args.name)
             print(diff_output)
+        
+        elif args.command == "shell":
+            manager.enter_shell(args.name)
         
         elif args.command == "list":
             tasks = manager.list_tasks()

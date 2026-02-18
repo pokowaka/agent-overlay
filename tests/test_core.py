@@ -71,3 +71,8 @@ def test_abort_nonexistent_task(manager):
     """Tests that aborting a task that doesn't exist raises a ValueError."""
     with pytest.raises(ValueError, match="not found"):
         manager.abort_task("ghost")
+
+def test_enter_shell_nonexistent_task(manager):
+    """Tests that entering a shell for a non-existent task raises a ValueError."""
+    with pytest.raises(ValueError, match="not found"):
+        manager.enter_shell("ghost")

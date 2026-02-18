@@ -23,14 +23,14 @@ The `agent-overlay` script provides the primary interface.
 ```bash
 ./agent-overlay start my-fix --base /path/to/your/repo
 ```
-This creates an isolated, writable view of your repository at `~/.agent_tasks/my-fix/merged/`. (Note: The task root remains under `~/.agent_tasks` for now as a default, but can be configured).
+This creates an isolated, writable view of your repository at `~/.agent_tasks/my-fix/merged/`.
 
 ### 2. Work in the Isolated View
-Change directory to the task's merged view and run your agents there:
+The easiest way to work is to enter an isolated shell:
 ```bash
-cd ~/.gemini/tasks/my-fix/merged/
-# Run any agent here
+./agent-overlay shell my-fix
 ```
+This automatically takes you into the merged directory in a new sub-shell. You can run any agent or tools here without affecting the base repo. Type `exit` to return.
 
 ### 3. Review Changes
 To see what the agent has modified:
