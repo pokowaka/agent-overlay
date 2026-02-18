@@ -23,14 +23,16 @@ The `agent-overlay` script provides the primary interface.
 ```bash
 ./agent-overlay start my-fix --base /path/to/your/repo
 ```
-This creates an isolated, writable view of your repository at `~/.agent_tasks/my-fix/merged/`.
+This creates an isolated, writable view and **automatically takes you into it** via a new sub-shell. You can run any agent or tools here safely.
+
+- To return to your original directory, type `exit`.
+- To start a task *without* entering the shell, use `./agent-overlay start my-fix --no-shell`.
 
 ### 2. Work in the Isolated View
-The easiest way to work is to enter an isolated shell:
+If you previously started a task with `--no-shell`, you can enter it later:
 ```bash
 ./agent-overlay shell my-fix
 ```
-This automatically takes you into the merged directory in a new sub-shell. You can run any agent or tools here without affecting the base repo. Type `exit` to return.
 
 ### 3. Review Changes
 To see what the agent has modified:

@@ -51,6 +51,7 @@ Example Workflow:
     start_p = subparsers.add_parser("start", help="Start a new task overlay")
     start_p.add_argument("name", help="Task name")
     start_p.add_argument("--base", default=".", help="Base directory (default: current)")
+    start_p.add_argument("--no-shell", action="store_true", help="Do not enter the shell automatically")
 
     # Abort command
     abort_p = subparsers.add_parser("abort", help="Abort and cleanup a task overlay")
@@ -78,9 +79,10 @@ Example Workflow:
             merged_path = manager.start_task(args.name)
             print(f"✅ Task '{args.name}' started.")
             print(f"📂 Mount point: {merged_path}")
-            print(f"🚀 To enter the isolated view, run:")
-            print(f"   ./agent-overlay shell {args.name}")
             print(f"💡 Hint: {manager.get_bazel_hint(args.name)}")
+            
+            if not args.no_shell:
+                manager.enter_shell(args.name)
         
         elif args.command == "abort":
             manager.abort_task(args.name)
