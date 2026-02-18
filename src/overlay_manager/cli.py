@@ -1,9 +1,20 @@
+"""Command-line interface for the AI Agent Workspace Overlay Manager.
+
+This module provides the entry point for the 'agent-overlay' tool,
+mapping CLI commands to the underlying OverlayManager logic.
+"""
+
 import argparse
 import sys
 import os
 from .core import OverlayManager
 
 def main():
+    """Entry point for the agent-overlay CLI.
+    
+    Parses arguments and executes the corresponding OverlayManager methods.
+    Exits with code 1 on error.
+    """
     parser = argparse.ArgumentParser(description="AI Agent Workspace Overlay Manager")
     subparsers = parser.add_subparsers(dest="command", help="Commands")
 
