@@ -3,8 +3,12 @@
 A Copy-on-Write (COW) FUSE overlay manager to enable multiple AI agents (e.g., Gemini CLI, Claude Code, etc.) to work concurrently on the same codebase without interference.
 
 ## Prerequisites
-- Linux
-- `fuse-overlayfs` (Install with: `sudo apt install fuse-overlayfs`)
+- **Linux Kernel:** Support for FUSE and User Namespaces.
+- **fuse-overlayfs:** The FUSE implementation of overlayfs.
+  - Install with: `sudo apt install fuse-overlayfs`
+- **FUSE Module:** Ensure the `fuse` module is loaded.
+  - Check with: `lsmod | grep fuse`
+  - Load with: `sudo modprobe fuse`
 
 ## Installation
 You can install the project in editable mode for development:

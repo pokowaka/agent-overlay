@@ -50,6 +50,26 @@ class OverlayManager:
             "merged": os.path.join(task_dir, "merged"),
         }
 
+    def check_prerequisites(self):
+        """Checks if the necessary system tools and modules are available.
+        
+        Raises:
+            RuntimeError: If fuse-overlayfs or /dev/fuse is missing.
+        """
+        # Check for fuse-overlayfs binary
+        if shutil.which("fuse-overlayfs") is None:
+            raise RuntimeError(
+                "'fuse-overlayfs' not found. It is required for rootless overlay support.\n"
+                "Installation: sudo apt install fuse-overlayfs"
+            )
+
+        # Check for /dev/fuse
+        if not os.path.exists("/dev/fuse"):
+            raise RuntimeError(
+                "/dev/fuse not found. The FUSE kernel module must be loaded.\n"
+                "Try running: sudo modprobe fuse"
+            )
+
     def start_task(self, task_name: str) -> str:
         """Starts a new task by mounting a COW overlay.
         
@@ -63,6 +83,7 @@ class OverlayManager:
             ValueError: If a task with the same name already exists.
             RuntimeError: If fuse-overlayfs is missing or the mount fails.
         """
+        self.check_prerequisites()
         paths = self._get_task_paths(task_name)
         
         if os.path.exists(paths["root"]):
@@ -82,9 +103,6 @@ class OverlayManager:
         try:
             subprocess.run(cmd, check=True, capture_output=True, text=True)
             return paths["merged"]
-        except FileNotFoundError:
-            shutil.rmtree(paths["root"])
-            raise RuntimeError("'fuse-overlayfs' not found. Please install it with: sudo apt install fuse-overlayfs")
         except subprocess.CalledProcessError as e:
             shutil.rmtree(paths["root"])
             raise RuntimeError(f"Failed to mount overlay: {e.stderr}")
