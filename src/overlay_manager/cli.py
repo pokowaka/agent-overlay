@@ -15,7 +15,36 @@ def main():
     Parses arguments and executes the corresponding OverlayManager methods.
     Exits with code 1 on error.
     """
-    parser = argparse.ArgumentParser(description="AI Agent Workspace Overlay Manager")
+    parser = argparse.ArgumentParser(
+        description="""
+AI Agent Workspace Overlay Manager.
+
+This tool creates isolated, writable workspace views using Copy-on-Write (COW) FUSE overlays. 
+It allows multiple AI agents (or humans) to work concurrently on the same codebase without 
+interfering with each other or the base repository.
+""",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Example Workflow:
+  1. Start a new task isolation:
+     $ agent-overlay start my-bug-fix --base /path/to/repo
+
+  2. Navigate to the isolated mount point (provided in 'start' output):
+     $ cd ~/.agent_tasks/my-bug-fix/merged
+
+  3. Run your AI agent or make manual changes:
+     $ gemini-cli "Fix the bug in src/main.py"
+
+  4. Run tests in isolation (using the recommended hint):
+     $ blaze --output_base=~/.agent_tasks/my-bug-fix/bazel_out build //...
+
+  5. Review your changes from the original repo directory:
+     $ agent-overlay diff my-bug-fix
+
+  6. Apply changes to your main branch (via git) and cleanup:
+     $ agent-overlay abort my-bug-fix
+"""
+    )
     subparsers = parser.add_subparsers(dest="command", help="Commands")
 
     # Start command
