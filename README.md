@@ -19,7 +19,7 @@ The `agent-overlay` script provides the primary interface.
 ```bash
 ./agent-overlay start my-fix --base /path/to/your/repo
 ```
-This creates an isolated, writable view of your repository at `~/.gemini/tasks/my-fix/merged/`. (Note: The task root remains under `~/.gemini/tasks` for now as a default, but can be configured).
+This creates an isolated, writable view of your repository at `~/.agent_tasks/my-fix/merged/`. (Note: The task root remains under `~/.agent_tasks` for now as a default, but can be configured).
 
 ### 2. Work in the Isolated View
 Change directory to the task's merged view and run your agents there:
@@ -49,7 +49,7 @@ When the task is complete (or you've applied the changes via git), cleanup the o
 - **Lower Directory:** Your original repository (read-only).
 - **Upper Directory:** A private directory where all modifications are stored.
 - **Merged View:** A FUSE mount combining the two, giving you a full, writable view of the repository while keeping the original safe.
-- **Build Systems (Bazel/Blaze):** The tool recommends using a unique `--output_base` for each task to avoid build cache conflicts.
+- **Build Systems (Bazel):** The tool recommends using a unique `--output_base` for each task to avoid build cache conflicts.
 
 ## Testing
 Run tests with:

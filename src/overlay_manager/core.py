@@ -149,7 +149,7 @@ class OverlayManager:
         return result.stdout
 
     def get_bazel_hint(self, task_name: str) -> str:
-        """Generates a recommended Bazel/Blaze command for isolated builds.
+        """Generates a recommended Bazel command for isolated builds.
         
         Args:
             task_name: The name of the task.
@@ -159,4 +159,4 @@ class OverlayManager:
         """
         paths = self._get_task_paths(task_name)
         output_base = os.path.join(paths["root"], "bazel_out")
-        return f"blaze --output_base={output_base} build //..."
+        return f"bazel --output_base={output_base} build //..."

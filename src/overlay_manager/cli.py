@@ -36,7 +36,7 @@ Example Workflow:
      $ gemini-cli "Fix the bug in src/main.py"
 
   4. Run tests in isolation (using the recommended hint):
-     $ blaze --output_base=~/.agent_tasks/my-bug-fix/bazel_out build //...
+     $ bazel --output_base=~/.agent_tasks/my-bug-fix/bazel_out build //...
 
   5. Review your changes from the original repo directory:
      $ agent-overlay diff my-bug-fix
